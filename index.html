@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Character Library</title><style>
+:root {
+  --accent: #FFBB14;
+  --bg-light: #f1f5f9;
+  --bg-dark: #020617;
+  --sun-color: #f59e0b;
+  --moon-color: #f8fafc;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--bg-light);
+  color: #111;
+  transition: background 0.5s, color 0.5s;
+}
+
+body.is-dark {
+  background: var(--bg-dark);
+  color: #fff;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  position: sticky;
+  top: 0;
+  background: inherit;
+  z-index: 10;
+  border-bottom: 2px solid var(--accent);
+}
+
+.logo { height: 40px; }
+.hamburger { font-size: 24px; cursor: pointer; }
+
+/* THEME TOGGLE (COMPACT VERSION OF YOUR DESIGN) */
+.theme-wrap { width: 90px; height: 44px; position: relative; }
+.theme-wrap input { display: none; }
+
+.theme-track {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  transition: 0.4s;
+}
+
+.theme-thumb {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  top: 5px;
+  left: 5px;
+  border-radius: 100px;
+  background: var(--sun-color);
+  transition: 0.5s cubic-bezier(0.68,-0.6,0.32,1.6);
+}
+
+.theme-wrap svg { width: 18px; height: 18px; z-index: 1; }
+.sun { fill: #475569; }
+.moon { fill: #f8fafc; opacity: 0.3; }
+
+.theme-wrap input:checked + .theme-track {
+  background: #1e293b;
+}
+
+.theme-wrap input:checked + .theme-track .theme-thumb {
+  transform: translateX(46px);
+  background: var(--moon-color);
+}
+
+.theme-wrap input:checked + .theme-track .moon { opacity: 1; }
+.theme-wrap input:checked + .theme-track .sun { opacity: 0.1; }
+
+/* CONTROLS */
+.controls { padding: 10px; display: grid; gap: 8px; }
+.controls input, .controls select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 12px;
+}
+
+.card {
+  border-radius: 28px;
+  overflow: hidden;
+  background: #1c1c1e;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  position: relative;
+}
+
+.card:active { transform: scale(0.92); }
+
+.card img.main {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.card-bottom {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  color: white;
+}
+
+.card-bottom img.skill {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.identity { font-size: 12px; }
+
+@media (min-width: 700px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* PORTAL ANIMATION */
+#portal {
+  position: fixed;
+  background: #1c1c1e;
+  border-radius: 28px;
+  z-index: 999;
+  display: none;
+  transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  overflow: auto;
+  color: white;
+  padding: 20px;
+}
+
+.portal-content { opacity: 0; transition: opacity 0.3s; }
+.portal-active .portal-content { opacity: 1; }
+
+.close-area {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* AWAKEN TOGGLE (EMBEDDED VERSION) */
+.awaken-wrap {
+  width: 200px;
+  height: 64px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.awaken-wrap input { display: none; }
+
+.awaken-track {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 100px;
+}
+
+.awaken-thumb {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  right: 7px;
+  top: 7px;
+  background: #1e293b;
+  border-radius: 100px;
+  transition: 0.6s cubic-bezier(0.68,-0.6,0.32,1.6);
+}
+
+.awaken-wrap input:checked + .awaken-track .awaken-thumb {
+  transform: translateX(-136px);
+  background: #fff;
+}
+</style></head><body>
+<header>
+  <div class="hamburger">☰</div>
+  <img src="logo.png" class="logo" alt="Logo" />
+  <label class="theme-wrap">
+    <input type="checkbox" id="themeToggle">
+    <span class="theme-track">
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
+      <svg class="moon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
+      <span class="theme-thumb"></span>
+    </span>
+  </label>
+</header><div class="controls">
+  <input type="text" id="search" placeholder="Search characters..." />
+</div><div class="grid" id="grid"></div><div id="portal">
+  <div class="close-area" onclick="shrink()"></div>
+  <div class="portal-content">
+    <h1 id="p-name"></h1>
+    <p id="p-skill"></p><label class="awaken-wrap">
+  <input type="checkbox" id="awakenToggle">
+  <span class="awaken-track">
+    <span class="awaken-thumb"></span>
+  </span>
+</label>
+
+  </div>
+</div><script>
+const grid = document.getElementById("grid");
+const portal = document.getElementById("portal");
+let activeCard = null;
+let allCharacters = [];
+
+/* THEME */
+const themeToggle = document.getElementById("themeToggle");
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("is-dark");
+  themeToggle.checked = true;
+}
+
+themeToggle.addEventListener("change", () => {
+  document.body.classList.toggle("is-dark");
+  localStorage.setItem("theme",
+    document.body.classList.contains("is-dark") ? "dark" : "light"
+  );
+});
+
+/* LOAD DATA */
+async function loadIndex() {
+  const res = await fetch("character/index.json");
+  const files = await res.json();
+  for (const file of files) {
+    const r = await fetch(`character/data/${file}`);
+    allCharacters.push(await r.json());
+  }
+  render();
+}
+
+function render() {
+  grid.innerHTML = "";
+  allCharacters.forEach(c => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img class="main" src="character/${c.images.character}">
+      <div class="card-bottom">
+        <img class="skill" src="character/${c.images.skill}">
+        <div class="identity">${c.identity}</div>
+      </div>`;
+    card.onclick = () => expand(card, c);
+    grid.appendChild(card);
+  });
+}
+
+/* PORTAL ANIMATION */
+function expand(card, char) {
+  activeCard = card;
+  const rect = card.getBoundingClientRect();
+
+  portal.style.display = "block";
+  portal.style.top = rect.top + "px";
+  portal.style.left = rect.left + "px";
+  portal.style.width = rect.width + "px";
+  portal.style.height = rect.height + "px";
+
+  requestAnimationFrame(() => {
+    portal.classList.add("portal-active");
+    portal.style.top = "0";
+    portal.style.left = "0";
+    portal.style.width = "100vw";
+    portal.style.height = "100vh";
+
+    document.getElementById("p-name").innerText = char.name;
+    document.getElementById("p-skill").innerText = char.skill;
+
+    card.style.opacity = "0";
+  });
+}
+
+function shrink() {
+  const rect = activeCard.getBoundingClientRect();
+
+  portal.classList.remove("portal-active");
+  portal.style.top = rect.top + "px";
+  portal.style.left = rect.left + "px";
+  portal.style.width = rect.width + "px";
+  portal.style.height = rect.height + "px";
+
+  setTimeout(() => {
+    portal.style.display = "none";
+    activeCard.style.opacity = "1";
+  }, 500);
+}
+
+loadIndex();
+</script></body>
+</html>
