@@ -1,0 +1,21 @@
+{
+  "name": "Awakened Alok",
+  "skillName": "Party Remix",
+  "skill": "Creates a 5m aura that increases movement speed by 15% and restores 5 HP/s for 10s. Meanwhile, drops music notes every 25, which can be picked up by teammates and grant the same effect as the aura. Cooldown: 455.",
+  "awakened": true,
+  "type": "active",
+  "gender": "male",
+  "category": "teamwork",
+  "identity": "Using the power of music, Alok left Brazil and travelled the world. His name means \"light\".",
+  "images": {
+    "character": "as_c/awakened_alok.png",
+    "skill": "as_s/awakened_alok_skill.png"
+  },
+  "awakening": {
+    "name": "Awakened Alok",
+    "skillName": "Party Remix",
+    "skill": "Creates a 5m aura that increases movement speed by 15% and restores 5 HP/s for 10s. Meanwhile, drops music notes every 25, which can be picked up by teammates and grant the same effect as the aura. Cooldown: 455.",
+    "characterImage": "as_c/awakened_alok_awakened.png",
+    "skillImage": "as_s/awakened_alok_awakened_skill.png"
+  }
+}
